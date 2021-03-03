@@ -27,7 +27,8 @@ namespace hw_2._2
             {
                 num[i] = int.Parse(sArray[i]);
             }
-            int max = num[0], min = num[0], arr = 0, sum = 0;
+            int max = num[0], min = num[0], sum = 0;
+            double arr = 0;
             int arrayNumCount = 0;//用于计数-数组中多少个元素
             for(arrayNumCount = 0; arrayNumCount < arrayNum && num[arrayNumCount] != 0; arrayNumCount++)
             {
@@ -35,7 +36,7 @@ namespace hw_2._2
                 min = num[arrayNumCount] < min ? num[arrayNumCount] : min;
                 sum += num[arrayNumCount];
             }
-            arr = sum / arrayNumCount;
+            arr = (double)sum/ arrayNumCount;
 
             maxNumberLabel.Text = max.ToString();
             minNumberLabel.Text = min.ToString();
