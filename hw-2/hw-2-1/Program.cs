@@ -6,34 +6,18 @@ namespace hw_2_1
     {
         static void Main(string[] args)
         {
-            const int arrayNum = 20;//定义数组最大数为20
-            int[,] num = new int[arrayNum, arrayNum];
-            Console.WriteLine("please input some numbers:");
+            const int arrayNum = 500;            //定义因子数组最大值
+            int[] factorNum = new int[arrayNum];
+            Console.WriteLine("please input number:");
             string str = Console.ReadLine();  //读取用户输入
-            num = toIntArray(str,arrayNum);
-            decomposePrimeFactors(num, arrayNum);
-            for(int i = 0;i< arrayNum;i++)
+            int num = int.Parse(str);
+            decomposePrimeFactors(num, factorNum, arrayNum);
+            Console.Write("the prime factors of " + num + " is :");
+            for (int i = 0;i< arrayNum;i++)
             {
-                if (num[i, 0] == 0) break;
-                Console.Write("the prime factors of "+ num[i, 0]+" is :");
-                for(int j = 1; j < arrayNum; j++)
-                {
-                    if (num[i,j] == 0) break;
-                    Console.Write(num[i,j] + "  ");
-                }
-                Console.WriteLine();
+                if (factorNum[i] == 0) break;
+                Console.Write(factorNum[i] + "  ");
             }
-        }
-
-        static public int[,] toIntArray(string str, int arrayNum) //将输入的字符串转化为整形数组
-        {
-            int[,] num = new int[arrayNum, arrayNum];
-            string[] sArray = str.Split(new char[2] { ' ', ',' }); //将用户输入的字符串以空格和逗号区分
-            for(int i= 0;i< sArray.Length;i++)
-            {
-                num[i,0] = int.Parse(sArray[i]);
-            }
-            return num;
         }
 
         static public bool isPrimeNum(int num)  //判断一个数是否为素数
@@ -47,22 +31,19 @@ namespace hw_2_1
             return true;
         }
         
-        static public void decomposePrimeFactors(int[,] num,int arrayNum)
+        static public void decomposePrimeFactors(int num,int[] factorNum,int arrayNum)
         {
-            for(int i = 0;i<arrayNum;i++) //第一层循环一一拆解所有的数
+            int countNum = 0;   //用于计数每个数的素数因子个数
+            int oriNumber = num;
+            for (int j = 2;j<oriNumber;) //第二层循环找到所有质因子
             {
-                int primeFactorNum = 0;   //用于计数每个数的素数因子个数
-                for (int j = 2;j<num[i,0];j++) //第二层循环找到所有质因子
+                if (num % j == 0) //如果j是该数的因子
                 {
-                    if(num[i, 0]%j == 0) //如果j是该数的因子，判断是否为素数
-                    {
-                        if (isPrimeNum(j))
-                        {
-                            primeFactorNum++;
-                            num[i, primeFactorNum] = j;
-                        }
-                    }
+                    num = num / j;
+                    factorNum[countNum] = j;
+                    countNum++;
                 }
+                else j++;
             }
         }
 
