@@ -31,22 +31,11 @@ namespace hw_2._4
 
         static bool IsToeplitzMatrix(int row,int col,int[,] matrix)
         {
-            for(int i = 0;i<row;i++) //从第一列的每一个元素出发向右下对比
+            for(int i = 0;i<row - 1;i++) //从第一列的每一个元素出发向右下对比
             {
-                int ro = i; int co = 0;
-                for (ro = i,co = 0;ro < row-1 && co < col-1;)
+                for (int j = 0; j < col - 1; j++) //从第一行的每一个元素出发向右下对比
                 {
-                    if (matrix[ro,co] != matrix[ro + 1,co + 1]) return false;
-                    else { ro++; co++; }
-                }
-            }
-            for (int j = 1; j < col; j++) //从第一行的每一个元素出发向右下对比
-            {
-                int ro = 0; int co = j;
-                for (ro = 0, co = j; ro < row - 1 && co < col - 1;)
-                {
-                    if (matrix[ro,co] != matrix[ro + 1,co + 1]) return false;
-                    else { ro++; co++; }
+                    if (matrix[i,j] != matrix[i+1, j + 1]) return false;
                 }
             }
             return true;
