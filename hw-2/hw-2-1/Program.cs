@@ -23,7 +23,7 @@ namespace hw_2_1
         {
             int countNum = 0;   //用于计数每个数的素数因子个数
             int oriNumber = num;
-            for (int j = 2;j<oriNumber;) //第二层循环找到所有质因子
+            for (int j = 2;j<oriNumber;) //找到所有质因子
             {
                 if (num % j == 0) //如果j是该数的因子
                 {
