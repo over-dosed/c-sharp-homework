@@ -24,7 +24,7 @@ namespace hw_2._3_2._4
             {
                 number[i - minNumber] = i; //将number数组赋从2到100的初值
             }
-            for(int i = minNumber;i<= System.Math.Sqrt(maxNumber);i++)
+            for(int i = minNumber;i*i<= maxNumber;i++)
             {
                 for (int j = 2; i * j <= maxNumber; j++) number[i * j - minNumber] = int.MaxValue;
             }
