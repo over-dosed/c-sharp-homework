@@ -19,18 +19,6 @@ namespace hw_2_1
                 Console.Write(factorNum[i] + "  ");
             }
         }
-
-        static public bool isPrimeNum(int num)  //判断一个数是否为素数
-        {
-            if (num < 2) return false;
-            if (num == 2) return true;
-            for(int i = 2;i<num;i++)
-            {
-                if (num % i == 0) return false; 
-            }
-            return true;
-        }
-        
         static public void decomposePrimeFactors(int num,int[] factorNum,int arrayNum)
         {
             int countNum = 0;   //用于计数每个数的素数因子个数
@@ -46,7 +34,5 @@ namespace hw_2_1
                 else j++;
             }
         }
-
-
     }
 }
