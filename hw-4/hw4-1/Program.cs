@@ -60,7 +60,7 @@ namespace hw4_1
         {
             GenericList<int> intList = new GenericList<int>();
             intList.Add(111);
-            intList.Add(222);
+            intList.Add(222); 
             intList.Add(333);
             intList.Add(444);
             intList.Add(555);
