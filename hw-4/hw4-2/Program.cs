@@ -42,16 +42,13 @@ namespace hw4_2
         }
     }
 
-    
-
     class Clock
     {
-        public Time clockTime { set; get; } = new Time();
+        public Time clockTime { set; get; } = new Time();  //属性，时钟时间
 
-        public Time alarmTime { set; get; } = new Time();
+        public Time alarmTime { set; get; } = new Time();  //属性，闹铃时间
 
-        public delegate void show(object sender);
-        public delegate void tickHandler(object sender);
+        public delegate void tickHandler(object sender);   //tick事件，alarm事件
         public delegate void alarmHandler(object sender);
 
         public Clock()
@@ -71,18 +68,28 @@ namespace hw4_2
             alarmTime.hour = h; alarmTime.min = m; alarmTime.second = s;
         }
 
-        public event show showClockTime;
-        public event show showAlarmTime;
+        public void showClockTime()
+        { 
+            Console.WriteLine("clock time is:  " +clockTime.hour + ":" + clockTime.min + ":" + clockTime.second);
+        }
+        public void showAlarmTime()
+        {
+            Console.WriteLine("alarm time is:  " +alarmTime.hour + ":" +alarmTime.min + ":" +alarmTime.second);
+        }
+
         public event tickHandler Tick;
         public event alarmHandler Alarm;
 
-        public void showClock() { showClockTime(this); }
-        public void showAlarm() { showAlarmTime(this); }
-
-        public void tickNow() { Tick(this); }
-
-        public void alarmNow() { Alarm(this); }
-
+        public void run()
+        {
+            while (true)
+            {
+                System.Threading.Thread.Sleep(1000);
+                clockTime.change();
+                Tick(this);
+                if (clockTime.equal(alarmTime)) Alarm(this);
+            }
+        }
     }
 
     class from
@@ -90,43 +97,16 @@ namespace hw4_2
         public Clock clock1 = new Clock();
         public from()
         {
-            clock1.showClockTime += clock1 =>
-            {
-                Clock clock = (Clock)clock1;
-                Console.WriteLine("clock time is:  "+clock.clockTime.hour + ":" + clock.clockTime.min + ":" + clock.clockTime.second);
-            };
-
-            clock1.showAlarmTime += clock1 =>
-            {
-                Clock clock = (Clock)clock1;
-                Console.WriteLine("alarm time is:  " + clock.alarmTime.hour + ":" + clock.alarmTime.min + ":" + clock.alarmTime.second);
-            };
-
             clock1.Tick += clock1 =>
             {
                 Clock clock = (Clock)clock1;
-                while (true)
-                {
-                    System.Threading.Thread.Sleep(1000);
-                    clock.clockTime.change();
-                    clock.showClock();
-                    if (clock.clockTime.equal(clock.alarmTime)) clock.alarmNow();
-                }
+                clock.showClockTime();
             };
-
             clock1.Alarm += clock1 =>
             {
                 Clock clock = (Clock)clock1;
-                for (int i = 0; i < 10; i++)
-                {
-                    System.Threading.Thread.Sleep(1000);
-                    clock.clockTime.change();
-                    clock.showAlarm();
-                    clock.showClock();
-                    Console.WriteLine("is alarming now !!!");
-                }
+                Console.WriteLine("is alarming now !!!\a\a\a");
             };
-
         }
     }
     class Program
@@ -134,8 +114,8 @@ namespace hw4_2
         static void Main(string[] args)
         {
             from from_1 = new from();
-            from_1.clock1.setAlarmTime(11, 30, 10);
-            from_1.clock1.tickNow();
+            from_1.clock1.setAlarmTime(16,2, 20);
+            from_1.clock1.run();
         }
     }
 }
