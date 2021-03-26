@@ -70,7 +70,7 @@ namespace hw4_2
 
         public void showClockTime()
         { 
-            Console.WriteLine("clock time is:  " +clockTime.hour + ":" + clockTime.min + ":" + clockTime.second);
+            Console.WriteLine("clock time is:  " +clockTime.hour + ":" + clockTime.min + ":\a" + clockTime.second);
         }
         public void showAlarmTime()
         {
@@ -114,7 +114,7 @@ namespace hw4_2
         static void Main(string[] args)
         {
             from from_1 = new from();
-            from_1.clock1.setAlarmTime(16,2, 20);
+            from_1.clock1.setAlarmTime(9,47, 2);
             from_1.clock1.run();
         }
     }
