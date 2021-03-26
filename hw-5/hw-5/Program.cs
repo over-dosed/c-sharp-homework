@@ -19,18 +19,45 @@ namespace hw_5
             Dictionary<Cargo, uint> goods1 = new Dictionary<Cargo, uint>();
             Dictionary<Cargo, uint> goods2 = new Dictionary<Cargo, uint>();
             Dictionary<Cargo, uint> goods3 = new Dictionary<Cargo, uint>();
-            goods1.Add(juice, 5); goods1.Add(pencil, 25); goods1.Add(ipad, 1);
+            goods1.Add(juice, 5); goods1.Add(notebook, 2500); goods1.Add(ipad, 1);
             goods2.Add(notebook, 5); goods2.Add(juice, 25); goods2.Add(ipad, 1);
             goods3.Add(notebook, 5); goods3.Add(pencil, 25); goods3.Add(juice, 1);
+
+            Order orderTestModify = new Order();
+            orderTestModify.guest = new Guest("ddd");orderTestModify.orderTime = System.DateTime.Now;orderTestModify.orderNum = 2021999999;
+            orderTestModify.orderAddress = "ShengZheng";orderTestModify.orderDetails.Add(new OrderDetails(ipad, 3));
+            orderTestModify.reCalculatePrice();
+
             os1.addOrder(guest1, goods1, "BeiJing");
             os1.addOrder(guest2, goods2, "ShangHai");
             os1.addOrder(guest3, goods3, "GuangZhou");
+            Console.WriteLine("**********   Search :  ID, 7878    ************");
             os1.searchOrder("ID", 7878);
+            Console.WriteLine("**********   Search :  cargo_Name, pencil    ************");
             os1.searchOrder("cargo_Name", "pencil");
-            os1.searchOrder("Guest", "aaa");
-            os1.searchOrder("order_Price", 7878);
+            
+            Console.WriteLine("**********   Delete :  cargo_Name, pencil   ************");
             os1.deleteOrder("cargo_Name", "pencil");
+            Console.WriteLine("**********   Search :  cargo_Name, pencil    ************");
             os1.searchOrder("cargo_Name", "pencil");
+
+            Console.WriteLine("**********   Search :  Guest, bbb    ************");
+            os1.searchOrder("Guest", "bbb");
+            Console.WriteLine("**********   Modify :  Guest, bbb    ************");
+            os1.modifyOrder("Guest", "bbb", orderTestModify);
+            Console.WriteLine("**********   Search :  order_Price, 12000    ************");
+            os1.searchOrder("order_Price", 12000);
+            Console.WriteLine("**********   show all orders    ************");
+            os1.showAllOrders();
+            Console.WriteLine("**********   Sort :  default    ************");
+            os1.sortOrder();
+            Console.WriteLine("**********   show all orders    ************");
+            os1.showAllOrders();
+            Console.WriteLine("**********   Sort :  by ID    ************");
+            os1.sortOrder2();
+            Console.WriteLine("**********   show all orders    ************");
+            os1.showAllOrders();
+
         }
     }
 }
@@ -103,7 +130,7 @@ class OrderDetails
         return HashCode.Combine(cargo, count, orderDetailsPrice);
     }
 }// 订单明细
-class Order
+class Order: IComparable
 {
     public int orderNum { set; get; }
     public Guest guest { set; get; }
@@ -162,6 +189,13 @@ class Order
             if (orderDetail.cargo.name == name) return true;
         }
         return false;
+    }
+
+    public int CompareTo(object obj2)
+    {
+        Order order2 = obj2 as Order;
+        if (order2 == null) throw new System.ArgumentException();
+        return this.orderPrice.CompareTo(order2.orderPrice);
     }
 
 
@@ -248,9 +282,59 @@ class OrderService
         }
     }
 
-    public void modifyOrder()  //修改订单
-    {  
-        
+    public void modifyOrder(string type, object information, Order orderModify)  //修改订单
+    {
+        try
+        {
+            switch (type)
+            {
+                case "ID":
+                    var orderSearchId = from x in orders where x.orderNum == int.Parse(information.ToString()) select x;
+                    int countId = orderSearchId.Count();
+                    if (countId == 0) { throw new Exception(); }
+                    for (int i = 0; i < countId; i++)
+                    {
+                        orders.Remove(orderSearchId.First());
+                        orders.Add(orderModify);
+                    }
+                    break;
+                case "cargo_Name":
+                    var orderSearchCargo = from x in orders where x.hasTheCargo((string)information) select x;
+                    int countCargo = orderSearchCargo.Count();
+                    if (countCargo == 0) { throw new Exception(); }
+                    for (int i = 0; i < countCargo; i++)
+                    {
+                        orders.Remove(orderSearchCargo.First());
+                        orders.Add(orderModify);
+                    }
+                    break;
+                case "Guest":
+                    var orderSearchGuest = from x in orders where x.guest.name == (string)information select x;
+                    int countGuest = orderSearchGuest.Count();
+                    if (countGuest == 0) { throw new Exception(); }
+                    for (int i = 0; i < countGuest; i++)
+                    {
+                        orders.Remove(orderSearchGuest.First());
+                        orders.Add(orderModify);
+                    }
+                    break;
+                case "order_Price":
+                    var orderSearchPrice = from x in orders where x.orderPrice == int.Parse(information.ToString()) select x;
+                    int countPrice = orderSearchPrice.Count();
+                    if (countPrice == 0) { throw new Exception(); }
+                    for (int i = 0; i < countPrice; i++)
+                    {
+                        orders.Remove(orderSearchPrice.First());
+                        orders.Add(orderModify);
+                    }
+                    break;
+                default: Console.WriteLine("ERROR condition"); break;
+            }
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Not Find what you want delete");
+        }
     }
 
     public void searchOrder(string type,object information)  //查询订单
@@ -282,5 +366,20 @@ class OrderService
     }
 
     public void sortOrder()
+    {
+        orders.Sort();
+    }
+    public void sortOrder2()
+    {
+        orders.Sort((p1, p2) => p1.orderNum - p2.orderNum);
+    }
+
+    public void showAllOrders()
+    {
+        foreach(Order o in orders)
+        {
+            o.ToString();
+        }
+    }
 }
 
