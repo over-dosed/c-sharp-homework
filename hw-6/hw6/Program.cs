@@ -411,7 +411,7 @@ public class Order : IComparable
 
 }  //订单
 
-class OrderService //订单控制
+public class OrderService //订单控制
 {
     public List<Order> orders { set; get; }
 
