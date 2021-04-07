@@ -567,22 +567,14 @@ public class OrderService //订单控制
 
     public bool Export(String outputName)  //将所有订单序列化
     {
-        try
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Order>));
+        using (FileStream fs = new FileStream(outputName, FileMode.Create))
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Order>));
-            using (FileStream fs = new FileStream(outputName, FileMode.Create))
-            {
-                xmlSerializer.Serialize(fs, orders);
-            };
-            Console.WriteLine("\n******  serialized as xml:");
-            Console.WriteLine(File.ReadAllText(outputName));
-            return true;
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine(e);
-            return false;
-        }
+            xmlSerializer.Serialize(fs, orders);
+        };
+        Console.WriteLine("\n******  serialized as xml:");
+        Console.WriteLine(File.ReadAllText(outputName));
+        return true;
     }
 
     public void Import(String inputName)  //从XML文件中载入订单

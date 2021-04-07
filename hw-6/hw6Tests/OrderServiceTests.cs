@@ -29,61 +29,83 @@ namespace Tests
         [TestMethod()]
         public void addOrderTest()
         {
-            Assert.Fail();
+            os1.addOrder(new Order());
         }
 
         [TestMethod()]
         public void deleteOrderTest()
         {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void modifyOrderTest()
-        {
-            Assert.Fail();
+            os1.deleteOrder("Guest", "zxy");
         }
 
         [TestMethod()]
         public void searchOrderTest()
         {
-            Assert.Fail();
+            os1.searchOrder("Guest", "zxy");
         }
 
         [TestMethod()]
-        public void sortOrderTest()
+        public void ExportTest1()
         {
-            Assert.Fail();
+            try
+            {
+                os1.Export("output.xml");
+            }
+            catch(Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
-        public void sortOrder2Test()
+        public void ExportTest2()
         {
-            Assert.Fail();
+            try
+            {
+                os1.Export("output");
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
-        public void showAllOrdersTest()
+        public void ImportTest1()
         {
-            Assert.Fail();
+            try
+            {
+                os1.Import("orders.xml");
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod()]
-        public void showAllOrdersTest1()
+        public void ImportTest2()
         {
-            Assert.Fail();
+            try
+            {
+                os1.Import("output.xml");
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
-        [TestMethod()]
-        public void ExportTest()
+        public void ImportTest3()
         {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void ImportTest()
-        {
-            Assert.Fail();
+            try
+            {
+                os1.Import("output");
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
     }
 }

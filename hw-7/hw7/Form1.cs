@@ -59,17 +59,11 @@ namespace hw7
 
         private void comboBox1_Layout(object sender, LayoutEventArgs e)
         {
-            List<String> colors = new List<String>();
             Type ColorCollection = typeof(System.Drawing.KnownColor);
            
             foreach (string colorName in Enum.GetNames(ColorCollection))
             {
-                colors.Add(colorName);
-            }
-            
-            foreach(String color in colors)
-            {
-                comboBox1.Items.Add(color);
+                comboBox1.Items.Add(colorName);
             }
         }
     }
