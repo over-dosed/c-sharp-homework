@@ -21,9 +21,11 @@ namespace hw7
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (graphics == null) graphics = this.CreateGraphics();
+            if (graphics == null) graphics = panel1.CreateGraphics();
             int n = int.Parse(textBox1.Text);
-            double x0 = 500;double y0 = 400;
+            
+            double x0 = panel1.Width/2;
+            double y0 = panel1.Height;
             double leng = double.Parse(textBox2.Text);
             double th = -Math.PI / 2;
             double th1 = double.Parse(textBox4.Text);
