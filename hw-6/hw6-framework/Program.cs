@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace hw6
+namespace hw6_framework
 {
     class Program
     {
@@ -269,10 +269,6 @@ public class Cargo
                price == cargo.price;
     }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(name, price);
-    }
 }// 商品
 
 public class Guest
@@ -300,10 +296,6 @@ public class Guest
                name == guest.name;
     }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(name);
-    }
 }//客户
 
 public class OrderDetails
@@ -340,10 +332,6 @@ public class OrderDetails
         return o != null && o.cargo == cargo && o.count == count && o.orderDetailsPrice == orderDetailsPrice;
     }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(cargo, count, orderDetailsPrice);
-    }
 }// 订单明细
 public class Order : IComparable
 {
@@ -363,11 +351,6 @@ public class Order : IComparable
     {
         return obj is Order order &&
                orderNum == order.orderNum;
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(orderNum, guest, orderTime, orderPrice, orderAddress, orderDetails);
     }
 
     public void reCalculatePrice()
@@ -583,20 +566,20 @@ public class OrderService //订单控制
         using (FileStream fs = new FileStream(inputName, FileMode.Open))
         {
             List<Order> orders2 = (List<Order>)xmlSerializer.Deserialize(fs);
-            Console.WriteLine("\nDeserialized from "+ inputName);
+            Console.WriteLine("\nDeserialized from " + inputName);
             orders2.ForEach(p => p.ToString());
             Console.WriteLine("\nThose orders added to order list:");
             orders2.ForEach(p => {
                 bool has = false;
                 foreach (Order x in this.orders)
+                {
+                    if (p.Equals(x))
                     {
-                        if (p.Equals(x))
-                        {
-                            has = true;
-                            break;
-                        }
+                        has = true;
+                        break;
                     }
-                if(!has)
+                }
+                if (!has)
                 {
                     this.orders.Add(p);
                     p.ToString();
