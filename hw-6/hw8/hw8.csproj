@@ -73,6 +73,12 @@
     <Compile Include="Form_addOrder.Designer.cs">
       <DependentUpon>Form_addOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_modifyOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_modifyOrder.Designer.cs">
+      <DependentUpon>Form_modifyOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -80,6 +86,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_addOrder.resx">
       <DependentUpon>Form_addOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_modifyOrder.resx">
+      <DependentUpon>Form_modifyOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -92,7 +101,9 @@
     </Compile>
     <None Include="Properties\DataSources\Cargo.datasource" />
     <None Include="Properties\DataSources\Form1.datasource" />
+    <None Include="Properties\DataSources\Guest.datasource" />
     <None Include="Properties\DataSources\Order.datasource" />
+    <None Include="Properties\DataSources\OrderDetails.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

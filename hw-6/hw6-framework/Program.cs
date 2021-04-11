@@ -269,6 +269,13 @@ public class Cargo
                price == cargo.price;
     }
 
+    public override int GetHashCode()
+    {
+        int hashCode = 552537344;
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+        hashCode = hashCode * -1521134295 + price.GetHashCode();
+        return hashCode;
+    }
 }// 商品
 
 public class Guest
@@ -296,6 +303,10 @@ public class Guest
                name == guest.name;
     }
 
+    public override int GetHashCode()
+    {
+        return 363513814 + EqualityComparer<string>.Default.GetHashCode(name);
+    }
 }//客户
 
 public class OrderDetails
@@ -332,6 +343,14 @@ public class OrderDetails
         return o != null && o.cargo == cargo && o.count == count && o.orderDetailsPrice == orderDetailsPrice;
     }
 
+    public override int GetHashCode()
+    {
+        int hashCode = -346454941;
+        hashCode = hashCode * -1521134295 + EqualityComparer<Cargo>.Default.GetHashCode(cargo);
+        hashCode = hashCode * -1521134295 + count.GetHashCode();
+        hashCode = hashCode * -1521134295 + orderDetailsPrice.GetHashCode();
+        return hashCode;
+    }
 }// 订单明细
 public class Order : IComparable
 {
@@ -391,7 +410,17 @@ public class Order : IComparable
         return this.orderPrice.CompareTo(order2.orderPrice);
     }
 
-
+    public override int GetHashCode()
+    {
+        int hashCode = 398892434;
+        hashCode = hashCode * -1521134295 + orderNum.GetHashCode();
+        hashCode = hashCode * -1521134295 + EqualityComparer<Guest>.Default.GetHashCode(guest);
+        hashCode = hashCode * -1521134295 + orderTime.GetHashCode();
+        hashCode = hashCode * -1521134295 + orderPrice.GetHashCode();
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(orderAddress);
+        hashCode = hashCode * -1521134295 + EqualityComparer<List<OrderDetails>>.Default.GetHashCode(orderDetails);
+        return hashCode;
+    }
 }  //订单
 
 public class OrderService //订单控制
@@ -588,4 +617,7 @@ public class OrderService //订单控制
         }
     }
 }
+
+
+
 
