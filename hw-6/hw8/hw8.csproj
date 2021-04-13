@@ -79,6 +79,24 @@
     <Compile Include="Form_modifyOrder.Designer.cs">
       <DependentUpon>Form_modifyOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_saveFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_saveFile.Designer.cs">
+      <DependentUpon>Form_saveFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_search.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_search.Designer.cs">
+      <DependentUpon>Form_search.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_showDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_showDetails.Designer.cs">
+      <DependentUpon>Form_showDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -89,6 +107,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_modifyOrder.resx">
       <DependentUpon>Form_modifyOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_saveFile.resx">
+      <DependentUpon>Form_saveFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_search.resx">
+      <DependentUpon>Form_search.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_showDetails.resx">
+      <DependentUpon>Form_showDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

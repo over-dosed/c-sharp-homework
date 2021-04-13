@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using hw6_framework;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace hw8
 {
@@ -20,37 +22,9 @@ namespace hw8
         public Form1()
         {
             InitializeComponent();
-            os1 = new OrderService();
-
             comboBox1.SelectedIndex = comboBox1.Items.IndexOf("默认");
-
-            Guest guest1 = new Guest("aaa");
-            Guest guest2 = new Guest("bbb");
-            Guest guest3 = new Guest("ccc");
-
-            Cargo notebook = new Cargo("notebook", 10.0);
-            Cargo ipad = new Cargo("ipad", 4000.0);
-            Cargo pencil = new Cargo("pencil", 2.0);
-            Cargo juice = new Cargo("juice", 8.0);
-
-            Dictionary<Cargo, uint> goods1 = new Dictionary<Cargo, uint>();
-            Dictionary<Cargo, uint> goods2 = new Dictionary<Cargo, uint>();
-            Dictionary<Cargo, uint> goods3 = new Dictionary<Cargo, uint>();
-
-            goods1.Add(juice, 5); goods1.Add(notebook, 2500); goods1.Add(ipad, 1);
-            goods2.Add(notebook, 5); goods2.Add(juice, 25); goods2.Add(ipad, 1);
-            goods3.Add(notebook, 5); goods3.Add(pencil, 25); goods3.Add(juice, 1);
-
-            Order order1 = os1.CreateAOrder(guest1, goods1, "BeiJing");
-            Order order2 = os1.CreateAOrder(guest2, goods2, "ShangHai");
-            Order order3 = os1.CreateAOrder(guest3, goods3, "GuangZhou");
-            bindingSource1.List.Add(order1);
-            bindingSource1.List.Add(order2);
-            bindingSource1.List.Add(order3);
-
+            
         }
-
-
 
         private void 增加订单ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -250,10 +224,13 @@ namespace hw8
                 {
                     return;
                 }
-                
-                Order[] orders = new Order[9999];
-                bindingSource1.List.CopyTo(orders, 0);
-                Array.Sort(orders);
+
+                List<Order> orders = new List<Order>();
+                foreach (Order order1 in bindingSource1.List)
+                {
+                    orders.Add(order1);
+                }
+                orders.Sort();
                 bindingSource1.List.Clear();
                 foreach(Order order in orders)
                 {
@@ -269,21 +246,12 @@ namespace hw8
                 {
                     return;
                 }
-                Order[] orders = new Order[9999];
-                bindingSource1.List.CopyTo(orders, 0);
-
-                Array.Sort<Order>(orders, (p1, p2) => {
-                    if(p1 == null)
-                    {
-                        if (p2 == null) return 0;
-                        else return -1;
-                    }
-                    else
-                    {
-                        if (p2 == null) return 1;
-                        else return p1.orderNum - p2.orderNum;
-                    }
-                });
+                List<Order> orders = new List<Order>();
+                foreach (Order order1 in bindingSource1.List)
+                {
+                    orders.Add(order1);
+                }
+                orders.Sort((p1, p2) => p1.orderNum - p2.orderNum);
                 bindingSource1.List.Clear();
                 foreach (Order order in orders)
                 {
@@ -291,6 +259,192 @@ namespace hw8
                     {
                         bindingSource1.List.Add(order);
                     }
+                }
+            }
+        }  //排序
+
+        private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            Form_showDetails showDetails = new Form_showDetails(bindingSource1);
+            showDetails.ShowDialog();
+        }
+
+        // 筛选按钮触发事件
+        private void 按订单IDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form_search searchOrderForm = new Form_search("订单ID");
+            DialogResult dialogResult = searchOrderForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                CurrencyManager cm = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+                cm.SuspendBinding(); //挂起数据绑定
+
+                for (int i = 0; i < bindingSource1.List.Count; i++)
+                {
+                    Order order = (Order)bindingSource1.List[i];
+                    if (order.orderNum != int.Parse(searchOrderForm.infomation))
+                    {
+                        //i 也可以用于表示该订单在哪一行（包括不可见行）
+                        dataGridView1.Rows[i].Visible = false;
+                    }
+                }
+
+                cm.ResumeBinding(); //继续数据绑定
+            }
+        }
+
+        private void 按客户名称ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            客户ToolStripMenuItem.Checked = true;
+            Form_search searchOrderForm = new Form_search("客户名称");
+            DialogResult dialogResult = searchOrderForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                CurrencyManager cm = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+                cm.SuspendBinding(); //挂起数据绑定
+
+                for (int i = 0;i< bindingSource1.List.Count;i++)
+                {
+                    Order order = (Order)bindingSource1.List[i];
+                    if (order.guest.name != searchOrderForm.infomation)
+                    {
+                         //i 也可以用于表示该订单在哪一行（包括不可见行）
+                        dataGridView1.Rows[i].Visible = false;
+
+                    }
+                }
+               
+                cm.ResumeBinding(); //继续数据绑定
+            }
+        }
+
+        private void 按订单总价ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form_search searchOrderForm = new Form_search("订单总价");
+            DialogResult dialogResult = searchOrderForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                CurrencyManager cm = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+                cm.SuspendBinding(); //挂起数据绑定
+
+                for (int i = 0; i < bindingSource1.List.Count; i++)
+                {
+                    Order order = (Order)bindingSource1.List[i];
+                    if (order.orderPrice != double.Parse(searchOrderForm.infomation))
+                    {
+                        //i 也可以用于表示该订单在哪一行（包括不可见行）
+                        dataGridView1.Rows[i].Visible = false;
+                    }
+                }
+
+                cm.ResumeBinding(); //继续数据绑定
+            }
+        }
+
+        private void 按订单货物ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form_search searchOrderForm = new Form_search("订单货物");
+            DialogResult dialogResult = searchOrderForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                CurrencyManager cm = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+                cm.SuspendBinding(); //挂起数据绑定
+
+                for (int i = 0; i < bindingSource1.List.Count; i++)
+                {
+                    Order order = (Order)bindingSource1.List[i];
+                    if (!order.hasTheCargo(searchOrderForm.infomation))
+                    {
+                        //i 也可以用于表示该订单在哪一行（包括不可见行）
+                        dataGridView1.Rows[i].Visible = false;
+                    }
+                }
+
+                cm.ResumeBinding(); //继续数据绑定
+            }
+        }
+
+        private void 重置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach(DataGridViewRow dataGridViewRow in dataGridView1.Rows)
+            {
+                dataGridViewRow.Visible = true;
+            }
+        }
+
+        private void 导出文件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            // Environment.SpecialFolder.MyDocuments 表示在我的文档中
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);   // 获取文件路径
+            saveFileDialog.Filter = "XML文件|*.xml";
+            saveFileDialog.DefaultExt = ".xml";   // 默认文件的拓展名
+            saveFileDialog.FileName = "orders.xml";   // 文件默认名
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fName = saveFileDialog.FileName;
+
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Order>));
+                using (FileStream fs = new FileStream(fName, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                {
+                    List<Order> orders = new List<Order>();
+                    foreach (Order order in bindingSource1.List)
+                    {
+                        orders.Add(order);
+                    }
+                    xmlSerializer.Serialize(fs, orders);
+                    fs.Flush();
+                };
+            }
+        }
+
+        private void 导入文件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            // Environment.SpecialFolder.MyDocuments 表示在我的文档中
+            ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);   // 获取文件路径
+            ofd.Filter = "XML文件|*.xml";
+            ofd.DefaultExt = ".xml";   // 默认文件的拓展名
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                string fName = ofd.FileName;
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Order>));
+                using (FileStream fs = new FileStream(fName, FileMode.Open))
+                {
+                    List<Order> orders2 = (List<Order>)xmlSerializer.Deserialize(fs);                    //逆序列化到orders2中
+                    List<Order> orders1 = new List<Order>();
+                    foreach (Order order in bindingSource1.List)
+                    {
+                        orders1.Add(order);
+                    }//原本orders放在orders1里
+
+                    orders2.ForEach(p =>
+                    {  //双层循环判断是否与原订单列表中订单重复，重复项不添加
+                        bool has = false;
+                        foreach (Order x in orders1)
+                        {
+                            if (p.Equals(x))
+                            {
+                                has = true;
+                                break;
+                            }
+                        }
+                        if (!has)
+                        {
+                            orders1.Add(p);
+                        }
+                    });
+
+                    bindingSource1.List.Clear();
+                    foreach (Order order in orders1)
+                    {
+                        if (order != null)
+                        {
+                            bindingSource1.List.Add(order);
+                        }
+                    }
+
                 }
             }
         }

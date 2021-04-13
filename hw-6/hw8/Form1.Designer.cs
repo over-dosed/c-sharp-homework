@@ -48,6 +48,7 @@ namespace hw8
             this.总价ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.订单地址ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.客户ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.双击显示订单详细ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导入文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,9 +96,10 @@ namespace hw8
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(554, 393);
+            this.dataGridView1.Size = new System.Drawing.Size(565, 393);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
+            this.dataGridView1.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDoubleClick);
             // 
             // orderNumDataGridViewTextBoxColumn
             // 
@@ -160,7 +162,7 @@ namespace hw8
             this.文件ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(495, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(506, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -185,14 +187,14 @@ namespace hw8
             // 修改订单ToolStripMenuItem
             // 
             this.修改订单ToolStripMenuItem.Name = "修改订单ToolStripMenuItem";
-            this.修改订单ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.修改订单ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.修改订单ToolStripMenuItem.Text = "删除订单";
             this.修改订单ToolStripMenuItem.Click += new System.EventHandler(this.删除订单ToolStripMenuItem_Click);
             // 
             // 修改订单ToolStripMenuItem1
             // 
             this.修改订单ToolStripMenuItem1.Name = "修改订单ToolStripMenuItem1";
-            this.修改订单ToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.修改订单ToolStripMenuItem1.Size = new System.Drawing.Size(152, 26);
             this.修改订单ToolStripMenuItem1.Text = "修改订单";
             this.修改订单ToolStripMenuItem1.Click += new System.EventHandler(this.修改订单ToolStripMenuItem1_Click);
             // 
@@ -203,7 +205,8 @@ namespace hw8
             this.下单时间ToolStripMenuItem,
             this.总价ToolStripMenuItem,
             this.订单地址ToolStripMenuItem,
-            this.客户ToolStripMenuItem});
+            this.客户ToolStripMenuItem,
+            this.双击显示订单详细ToolStripMenuItem});
             this.显示ToolStripMenuItem.Name = "显示ToolStripMenuItem";
             this.显示ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.显示ToolStripMenuItem.Text = "显示";
@@ -214,7 +217,7 @@ namespace hw8
             this.订单号ToolStripMenuItem.CheckOnClick = true;
             this.订单号ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.订单号ToolStripMenuItem.Name = "订单号ToolStripMenuItem";
-            this.订单号ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.订单号ToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.订单号ToolStripMenuItem.Text = "订单ID";
             this.订单号ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.订单号ToolStripMenuItem_CheckedChanged);
             // 
@@ -224,7 +227,7 @@ namespace hw8
             this.下单时间ToolStripMenuItem.CheckOnClick = true;
             this.下单时间ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.下单时间ToolStripMenuItem.Name = "下单时间ToolStripMenuItem";
-            this.下单时间ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.下单时间ToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.下单时间ToolStripMenuItem.Text = "订单时间";
             this.下单时间ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.下单时间ToolStripMenuItem_CheckedChanged);
             // 
@@ -234,7 +237,7 @@ namespace hw8
             this.总价ToolStripMenuItem.CheckOnClick = true;
             this.总价ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.总价ToolStripMenuItem.Name = "总价ToolStripMenuItem";
-            this.总价ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.总价ToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.总价ToolStripMenuItem.Text = "订单总价";
             this.总价ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.总价ToolStripMenuItem_CheckedChanged);
             // 
@@ -244,7 +247,7 @@ namespace hw8
             this.订单地址ToolStripMenuItem.CheckOnClick = true;
             this.订单地址ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.订单地址ToolStripMenuItem.Name = "订单地址ToolStripMenuItem";
-            this.订单地址ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.订单地址ToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.订单地址ToolStripMenuItem.Text = "配送地址";
             this.订单地址ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.订单地址ToolStripMenuItem_CheckedChanged);
             // 
@@ -252,9 +255,15 @@ namespace hw8
             // 
             this.客户ToolStripMenuItem.CheckOnClick = true;
             this.客户ToolStripMenuItem.Name = "客户ToolStripMenuItem";
-            this.客户ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.客户ToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.客户ToolStripMenuItem.Text = "客户姓名";
             this.客户ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.客户ToolStripMenuItem_CheckedChanged);
+            // 
+            // 双击显示订单详细ToolStripMenuItem
+            // 
+            this.双击显示订单详细ToolStripMenuItem.Name = "双击显示订单详细ToolStripMenuItem";
+            this.双击显示订单详细ToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.双击显示订单详细ToolStripMenuItem.Text = "双击显示订单详细";
             // 
             // 文件ToolStripMenuItem
             // 
@@ -268,14 +277,16 @@ namespace hw8
             // 导入文件ToolStripMenuItem
             // 
             this.导入文件ToolStripMenuItem.Name = "导入文件ToolStripMenuItem";
-            this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.导入文件ToolStripMenuItem.Text = "导入文件";
+            this.导入文件ToolStripMenuItem.Click += new System.EventHandler(this.导入文件ToolStripMenuItem_Click);
             // 
             // 导出文件ToolStripMenuItem
             // 
             this.导出文件ToolStripMenuItem.Name = "导出文件ToolStripMenuItem";
-            this.导出文件ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.导出文件ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.导出文件ToolStripMenuItem.Text = "导出文件";
+            this.导出文件ToolStripMenuItem.Click += new System.EventHandler(this.导出文件ToolStripMenuItem_Click);
             // 
             // comboBox1
             // 
@@ -297,7 +308,7 @@ namespace hw8
             this.menuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.筛选ToolStripMenuItem});
-            this.menuStrip2.Location = new System.Drawing.Point(495, 0);
+            this.menuStrip2.Location = new System.Drawing.Point(506, 0);
             this.menuStrip2.Name = "menuStrip2";
             this.menuStrip2.Size = new System.Drawing.Size(59, 451);
             this.menuStrip2.TabIndex = 3;
@@ -320,30 +331,35 @@ namespace hw8
             this.按订单IDToolStripMenuItem.Name = "按订单IDToolStripMenuItem";
             this.按订单IDToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.按订单IDToolStripMenuItem.Text = "按订单ID";
+            this.按订单IDToolStripMenuItem.Click += new System.EventHandler(this.按订单IDToolStripMenuItem_Click);
             // 
             // 按订单货物ToolStripMenuItem
             // 
             this.按订单货物ToolStripMenuItem.Name = "按订单货物ToolStripMenuItem";
             this.按订单货物ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.按订单货物ToolStripMenuItem.Text = "按订单货物";
+            this.按订单货物ToolStripMenuItem.Click += new System.EventHandler(this.按订单货物ToolStripMenuItem_Click);
             // 
             // 按客户名称ToolStripMenuItem
             // 
             this.按客户名称ToolStripMenuItem.Name = "按客户名称ToolStripMenuItem";
             this.按客户名称ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.按客户名称ToolStripMenuItem.Text = "按客户姓名";
+            this.按客户名称ToolStripMenuItem.Click += new System.EventHandler(this.按客户名称ToolStripMenuItem_Click);
             // 
             // 按订单总价ToolStripMenuItem
             // 
             this.按订单总价ToolStripMenuItem.Name = "按订单总价ToolStripMenuItem";
             this.按订单总价ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.按订单总价ToolStripMenuItem.Text = "按订单总价";
+            this.按订单总价ToolStripMenuItem.Click += new System.EventHandler(this.按订单总价ToolStripMenuItem_Click);
             // 
             // 重置ToolStripMenuItem
             // 
             this.重置ToolStripMenuItem.Name = "重置ToolStripMenuItem";
             this.重置ToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.重置ToolStripMenuItem.Text = "重置";
+            this.重置ToolStripMenuItem.Click += new System.EventHandler(this.重置ToolStripMenuItem_Click);
             // 
             // dataGridView3
             // 
@@ -368,7 +384,7 @@ namespace hw8
             this.dataGridView3.RowHeadersVisible = false;
             this.dataGridView3.RowHeadersWidth = 51;
             this.dataGridView3.RowTemplate.Height = 27;
-            this.dataGridView3.Size = new System.Drawing.Size(136, 393);
+            this.dataGridView3.Size = new System.Drawing.Size(147, 393);
             this.dataGridView3.TabIndex = 5;
             // 
             // nameDataGridViewTextBoxColumn
@@ -384,7 +400,7 @@ namespace hw8
             // 
             this.button_delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button_delete.Enabled = false;
-            this.button_delete.Location = new System.Drawing.Point(422, 31);
+            this.button_delete.Location = new System.Drawing.Point(433, 31);
             this.button_delete.Name = "button_delete";
             this.button_delete.Size = new System.Drawing.Size(125, 23);
             this.button_delete.TabIndex = 6;
@@ -397,7 +413,7 @@ namespace hw8
             // 
             this.button_modify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button_modify.Enabled = false;
-            this.button_modify.Location = new System.Drawing.Point(282, 31);
+            this.button_modify.Location = new System.Drawing.Point(293, 31);
             this.button_modify.Name = "button_modify";
             this.button_modify.Size = new System.Drawing.Size(129, 23);
             this.button_modify.TabIndex = 7;
@@ -410,7 +426,7 @@ namespace hw8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 451);
+            this.ClientSize = new System.Drawing.Size(565, 451);
             this.Controls.Add(this.button_modify);
             this.Controls.Add(this.button_delete);
             this.Controls.Add(this.dataGridView3);
@@ -456,7 +472,6 @@ namespace hw8
         private System.Windows.Forms.MenuStrip menuStrip2;
         private System.Windows.Forms.ToolStripMenuItem 筛选ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 按订单IDToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 按订单货物ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 按客户名称ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 按订单总价ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 重置ToolStripMenuItem;
@@ -469,6 +484,8 @@ namespace hw8
         private System.Windows.Forms.DataGridViewTextBoxColumn orderPriceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn orderAddressDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn choose;
+        private System.Windows.Forms.ToolStripMenuItem 双击显示订单详细ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 按订单货物ToolStripMenuItem;
     }
 }
 
