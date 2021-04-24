@@ -59,7 +59,7 @@ namespace hw9
                     if ((bool)urls[url]) continue; //已经下载过的，不再下载
                     current = url;
                 }
-                if (current == null || count > 10) break; //如果找不到新链接或者数目大于10，
+                if (current == null || count > 100) break; //如果找不到新链接或者数目大于10，
 
                 rtb.Text += "\n爬行" + current + "页面！"; //输出现在爬行状态
 
