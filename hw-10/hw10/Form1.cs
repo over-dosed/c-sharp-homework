@@ -128,16 +128,16 @@ namespace hw9
             setText(rtb, "\n开始爬行了\n");
             while (true)
             {
-                lock(urls)
+                string current = null;
+                lock (urls)
                 {
-                    string current = null;
                     foreach (string url in urls.Keys) // 找到一个还没下载过的链接
                     {
                         if ((bool)urls[url]) continue; //已经下载过的，不再下载
                         current = url;
                     }
                     if (current == null || count > 100) break; //如果找不到新链接或者数目大于10，
-
+                }
                     //  rtb.Text += "\n爬行" + current + "页面！"; //输出现在爬行状态
                     setText(rtb, "\n爬行" + current + "页面！");
 
@@ -147,7 +147,7 @@ namespace hw9
                     count++; //爬行数目自增
 
                     Parse(html, headUrl); //解析当前页面
-                }  
+                 
             }
            // rtb.Text += "\n\n爬行结束";
 
