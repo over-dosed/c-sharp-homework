@@ -19,6 +19,7 @@ namespace hw6_framework
 
 public class Cargo
 {
+    public int ID { set; get; }
     public string name { set; get; }
     public double price { set; get; }
 
@@ -57,6 +58,7 @@ public class Cargo
 
 public class Guest
 {
+    public int ID { set; get; }
     public string name { set; get; }
 
     public Guest()
