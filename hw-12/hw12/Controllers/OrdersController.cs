@@ -9,7 +9,7 @@ using OrderApi.Models;
 
 namespace hw12.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[Orders]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
